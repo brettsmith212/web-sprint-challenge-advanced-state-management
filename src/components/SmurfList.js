@@ -1,26 +1,38 @@
-import React from 'react';
-import Smurf from './Smurf';
+import React from "react";
+import Smurf from "./Smurf";
 
- const SmurfList = ()=> {
-    const isLoading = false;
-    const testSmurf = {
-        id:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-        name:'Poppa Smurf',
-        position:'Village Leader',
-        nickname: 'Pops',
-        description: 'Papa is the practical village leader and the father figure of 100 or so young Smurfs. He is easily identified by his red Smurf hat, pants, and a shortly-trimmed white beard and moustache.'
-    }
+import { connect } from "react-redux";
 
-    if (isLoading) {
-        return <h1>Loading...</h1>;
-    }
+const SmurfList = ({ isLoading, smurfs }) => {
+  //   const isLoading = false;
+  //   const testSmurf = {
+  //     id: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+  //     name: "Poppa Smurf",
+  //     position: "Village Leader",
+  //     nickname: "Pops",
+  //     description:
+  //       "Papa is the practical village leader and the father figure of 100 or so young Smurfs. He is easily identified by his red Smurf hat, pants, and a shortly-trimmed white beard and moustache.",
+  //   };
 
-    return(<div className="listContainer">
-        <Smurf smurf={testSmurf}/>
-    </div>);
-}
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
-export default SmurfList;
+  const smurfArr = smurfs.map((smurf) => {
+    return <Smurf key={smurf.id} smurf={smurf} />;
+  });
+
+  return <div className="listContainer">{smurfArr}</div>;
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.isLoading,
+    smurfs: state.smurfs,
+  };
+};
+
+export default connect(mapStateToProps)(SmurfList);
 
 //Task List:
 //1. Connect the smurfs and loading state values to the SmurfList component.
